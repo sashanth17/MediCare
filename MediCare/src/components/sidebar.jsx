@@ -77,6 +77,15 @@ export default function SidebarMenu() {
               {isOpen && <span>Profile</span>}
             </Link>
           </li>
+          <li>
+            <Link
+              to="/profile"
+              className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-800 transition"
+            >
+              <span className="material-symbols-outlined">chat</span>
+              {isOpen && <span>Chat</span>}
+            </Link>
+          </li>
         </ul>
       </nav>
     </div>
