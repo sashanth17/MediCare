@@ -5,6 +5,11 @@ import { BrowserRouter } from "react-router-dom";
 import SidebarMenu from "./components/sidebar";
 import RoutingMenu from "./components/Routings";
 import { testEnv } from "../Api/test";
+import PatientInfo from "./pages/PersonalInfo";
+import MedicalHistory from "./pages/MedicalHistory";
+import HealthRecords from "./pages/HealthRecords";
+import DoctorsList from "./pages/DoctorsList";
+import PharmacyList from "./pages/PharmacyList";
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
@@ -14,7 +19,8 @@ createRoot(document.getElementById("root")).render(
         {testEnv()}
         {/* Main content area */}
         <div className="flex-1 bg-gray-100 overflow-y-auto">
-          <RoutingMenu />
+          {/* <RoutingMenu /> */}
+          <PharmacyList/>
         </div>
       </div>
     </BrowserRouter>
