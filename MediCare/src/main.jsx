@@ -10,6 +10,7 @@ import MedicalHistory from "./pages/MedicalHistory";
 import HealthRecords from "./pages/HealthRecords";
 import DoctorsList from "./pages/DoctorsList";
 import PharmacyList from "./pages/PharmacyList";
+import ChatInterface from "./pages/ChatInterface";
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
@@ -20,7 +21,7 @@ createRoot(document.getElementById("root")).render(
         {/* Main content area */}
         <div className="flex-1 bg-gray-100 overflow-y-auto">
           {/* <RoutingMenu /> */}
-          <PharmacyList/>
+          <ChatInterface/>
         </div>
       </div>
     </BrowserRouter>

@@ -1,75 +1,59 @@
-import React, { useState } from "react";
+import React from "react";
 
-// Default health records data
-const defaultRecords = [
-  { title: "Blood Test", status: "complete", details: "Routine blood check-up", content: "All results normal" },
-  { title: "X-Ray", status: "under", details: "Chest X-Ray", content: "Pending review by radiologist" },
-  { title: "Vaccination", status: "complete", details: "Flu vaccine", content: "Administered successfully" },
+const defaultHistory = [
+  { date: "2025-09-18", condition: "Flu", action: "Medication", doctor: "Dr. Meera", status: "normal" },
+  { date: "2025-08-10", condition: "Cold", action: "Rest", doctor: "Dr. Rajesh", status: "stable" },
+  { date: "2025-07-05", condition: "Allergy", action: "Antihistamine", doctor: "Dr. Anil", status: "under" },
+  { date: "2025-06-01", condition: "Check-up", action: "Routine", doctor: "Dr. Priya", status: "need" },
 ];
 
-const HealthRecords = ({ records = defaultRecords }) => {
-  const [showView, setShowView] = useState(false);
-  const [viewContent, setViewContent] = useState("");
-
+const MedicalHistory = ({ history = defaultHistory }) => {
   const getStatusClasses = (status) => {
     switch (status) {
-      case "complete":
-        return "bg-green-700/20 text-green-200";
+      case "need":
+        return "bg-red-700/20 text-red-200";
       case "under":
         return "bg-yellow-700/20 text-yellow-200";
+      case "stable":
+        return "bg-green-700/20 text-green-200";
+      case "normal":
+        return "bg-blue-700/20 text-blue-200";
       default:
         return "bg-gray-700/20 text-gray-200";
     }
   };
 
   return (
-    <div className="w-[95%] max-w-3xl mx-auto my-6">
-      {/* Heading in blackish-blue */}
-      <h2 className="text-center text-2xl font-bold mb-6 text-[#1e293b]">Health Records</h2>
-
-      <div className="flex flex-col gap-5 items-center">
-        {records.map((rec, idx) => (
-          <div
-            key={idx}
-            className="bg-gradient-to-b from-gray-900 to-black rounded-xl shadow-lg w-[90%] max-w-lg p-5 flex flex-col items-center hover:-translate-y-1 transition-transform"
-          >
-            <div className="flex gap-2 items-center mb-2 justify-center">
-              <h4 className="text-white text-lg">{rec.title}</h4>
-              <span className={`px-3 py-1 rounded-full font-bold ${getStatusClasses(rec.status)}`}>
-                {rec.status.charAt(0).toUpperCase() + rec.status.slice(1)}
-              </span>
-            </div>
-            <p className="text-gray-300 text-sm mb-2">{rec.details}</p>
-            <button
-              className="bg-blue-700 text-white px-4 py-2 rounded-lg hover:bg-blue-800 transition"
-              onClick={() => {
-                setViewContent(rec.content);
-                setShowView(true);
-              }}
-            >
-              View
-            </button>
-          </div>
-        ))}
-      </div>
-
-      {showView && (
-        <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
-          <div className="bg-gray-900 text-white p-6 rounded-xl shadow-xl w-[90%] max-w-md relative">
-            <span
-              className="absolute top-3 right-3 text-red-500 text-xl font-bold cursor-pointer"
-              onClick={() => setShowView(false)}
-            >
-              &times;
-            </span>
-            {/* Modal title in blackish-blue */}
-            <h3 className="text-[#1e293b] text-xl font-bold mb-4">Health Record</h3>
-            <div>{viewContent}</div>
-          </div>
-        </div>
-      )}
+    <div className="w-[95%] max-w-3xl bg-gradient-to-b from-gray-900 to-black p-6 rounded-xl shadow-xl mx-auto my-6">
+      <h2 className="text-center text-2xl font-bold text-white mb-4">Medical History</h2>
+      <table className="w-full border-collapse text-center text-white">
+        <thead>
+          <tr className="bg-gray-800">
+            <th className="border px-3 py-2">Date</th>
+            <th className="border px-3 py-2">Condition / Event</th>
+            <th className="border px-3 py-2">Medication / Action</th>
+            <th className="border px-3 py-2">Doctor</th>
+            <th className="border px-3 py-2">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {history.map((item, idx) => (
+            <tr key={idx} className="even:bg-gray-800/50 odd:bg-gray-800/30">
+              <td className="border px-3 py-2">{item.date}</td>
+              <td className="border px-3 py-2">{item.condition}</td>
+              <td className="border px-3 py-2">{item.action}</td>
+              <td className="border px-3 py-2">{item.doctor}</td>
+              <td className="border px-3 py-2">
+                <span className={`px-3 py-1 rounded-full font-bold ${getStatusClasses(item.status)}`}>
+                  {item.status.charAt(0).toUpperCase() + item.status.slice(1)}
+                </span>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
 
-export default HealthRecords;
+export default MedicalHistory;

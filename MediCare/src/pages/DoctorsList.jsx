@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-// Default doctors data
 const defaultDoctors = [
   {
     name: "Dr. Rajesh Kumar",
@@ -35,15 +34,16 @@ const DoctorsList = ({ doctors = defaultDoctors }) => {
   const [selectedDoctor, setSelectedDoctor] = useState(null);
   const [filter, setFilter] = useState("All");
 
-  // Filtered doctors based on specialization
   const filteredDoctors =
-    filter === "All" ? doctors : doctors.filter((doc) => doc.specialization === filter);
+    filter === "All"
+      ? doctors
+      : doctors.filter((doc) => doc.specialization === filter);
 
-  // Get unique specializations for filter dropdown
   const specializations = ["All", ...new Set(doctors.map((doc) => doc.specialization))];
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 p-6">
+      {/* Header + Filter */}
       <div className="flex justify-between w-full max-w-4xl mb-4">
         <h1 className="text-2xl font-bold text-[#1e293b]">DOCTORS LIST</h1>
         <select
@@ -59,6 +59,7 @@ const DoctorsList = ({ doctors = defaultDoctors }) => {
         </select>
       </div>
 
+      {/* Doctors Table */}
       <table className="table-auto border-collapse border border-gray-300 w-full max-w-4xl">
         <thead>
           <tr className="bg-[#1e293b]/80 text-white">
@@ -76,7 +77,9 @@ const DoctorsList = ({ doctors = defaultDoctors }) => {
               className="hover:bg-[#1e293b]/10 cursor-pointer"
               onClick={() => setSelectedDoctor(doc)}
             >
-              <td className="border border-gray-300 px-4 py-2 text-[#1e293b] underline">{doc.name}</td>
+              <td className="border border-gray-300 px-4 py-2 text-[#1e293b] underline">
+                {doc.name}
+              </td>
               <td className="border border-gray-300 px-4 py-2">{doc.specialization}</td>
               <td className="border border-gray-300 px-4 py-2">{doc.experience}</td>
               <td className="border border-gray-300 px-4 py-2">{doc.location}</td>
@@ -86,7 +89,7 @@ const DoctorsList = ({ doctors = defaultDoctors }) => {
         </tbody>
       </table>
 
-      {/* Modal for doctor details */}
+      {/* Modal */}
       {selectedDoctor && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="relative bg-[#1e293b] text-white rounded-xl shadow-2xl p-6 flex flex-col gap-4 w-[500px]">
@@ -107,14 +110,22 @@ const DoctorsList = ({ doctors = defaultDoctors }) => {
                 <p className="mt-1 text-gray-200">{selectedDoctor.description}</p>
                 <table className="mt-3 text-white text-sm w-full">
                   <tbody>
-                    {Object.entries(selectedDoctor).map(([k, v]) =>
-                      !["name", "description", "image"].includes(k) ? (
-                        <tr key={k}>
-                          <td className="font-bold px-2 py-1">{k.toUpperCase()}</td>
-                          <td className="px-2 py-1">{v}</td>
-                        </tr>
-                      ) : null
-                    )}
+                    <tr>
+                      <td className="font-bold px-2 py-1">Specialization</td>
+                      <td className="px-2 py-1">{selectedDoctor.specialization}</td>
+                    </tr>
+                    <tr>
+                      <td className="font-bold px-2 py-1">Experience</td>
+                      <td className="px-2 py-1">{selectedDoctor.experience}</td>
+                    </tr>
+                    <tr>
+                      <td className="font-bold px-2 py-1">Location</td>
+                      <td className="px-2 py-1">{selectedDoctor.location}</td>
+                    </tr>
+                    <tr>
+                      <td className="font-bold px-2 py-1">Language</td>
+                      <td className="px-2 py-1">{selectedDoctor.language}</td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
