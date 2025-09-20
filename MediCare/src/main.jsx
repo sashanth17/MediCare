@@ -20,8 +20,7 @@ createRoot(document.getElementById("root")).render(
         {testEnv()}
         {/* Main content area */}
         <div className="flex-1 bg-gray-100 overflow-y-auto">
-          {/* <RoutingMenu /> */}
-          <ChatInterface/>
+          <RoutingMenu />
         </div>
       </div>
     </BrowserRouter>

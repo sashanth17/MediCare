@@ -43,29 +43,55 @@ export default function SidebarMenu() {
           </li>
           <li>
             <Link
-              to="/tasks"
-              className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-800 transition"
-            >
-              <ClipboardList size={20} />
-              {isOpen && <span>Tasks</span>}
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/reports"
+              to="/Scan-Records"
               className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-800 transition"
             >
               <FileText size={20} />
-              {isOpen && <span>Reports</span>}
+              {isOpen && <span>Scan Records</span>}
             </Link>
           </li>
           <li>
             <Link
-              to="/calendar"
+              to="/Medicine-availability"
               className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-800 transition"
             >
               <Calendar size={20} />
-              {isOpen && <span>Calendar</span>}
+              {isOpen && <span>Medicine availability</span>}
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/chat"
+              className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-800 transition"
+            >
+              <span className="material-symbols-outlined">chat</span>
+              {isOpen && <span>Chat</span>}
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/Connect-Patient"
+              className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-800 transition"
+            >
+              {isOpen && <span>Consult Doctor</span>}
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/Connect-doctor"
+              className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-800 transition"
+            >
+              {/* <span className="material-symbols-outlined">video_call</span> */}
+              {isOpen && <span>Connect Patient</span>}
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/Doctors-List"
+              className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-800 transition"
+            >
+              {/* <span className="material-symbols-outlined">video_call</span> */}
+              {isOpen && <span>Doctors List</span>}
             </Link>
           </li>
           <li>
@@ -75,15 +101,6 @@ export default function SidebarMenu() {
             >
               <Users size={20} />
               {isOpen && <span>Profile</span>}
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/profile"
-              className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-800 transition"
-            >
-              <span className="material-symbols-outlined">chat</span>
-              {isOpen && <span>Chat</span>}
             </Link>
           </li>
         </ul>

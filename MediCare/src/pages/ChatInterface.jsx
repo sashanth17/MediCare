@@ -1,5 +1,6 @@
 // GeminiChatSimple.jsx
 import React, { useState, useRef, useEffect } from "react";
+import axios from "axios";
 
 export default function GeminiChatSimple() {
   const [showWelcome, setShowWelcome] = useState(true);
@@ -7,6 +8,7 @@ export default function GeminiChatSimple() {
   const [input, setInput] = useState("");
   const [files, setFiles] = useState([]);
   const [dragOver, setDragOver] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const messagesEndRef = useRef(null);
 
@@ -26,14 +28,56 @@ export default function GeminiChatSimple() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if (!input.trim() && files.length === 0) return;
-    setMessages((prev) => [
-      ...prev,
-      { id: Date.now(), sender: "user", text: input.trim(), files: [...files] },
-    ]);
+
+    const userMessage = {
+      id: Date.now(),
+      sender: "user",
+      text: input.trim(),
+      files: [...files],
+    };
+
+    setMessages((prev) => [...prev, userMessage]);
     setInput("");
     setFiles([]);
+
+    // show typing/loading indicator
+    const typingMsg = {
+      id: Date.now() + 1,
+      sender: "bot",
+      text: "⏳ Typing...",
+    };
+    setMessages((prev) => [...prev, typingMsg]);
+    setLoading(true);
+
+    try {
+      const res = await axios.post("http://localhost:5000/ai", {
+        query: userMessage.text,
+        session_id: "12345",
+      });
+
+      const data = res.data;
+
+      setMessages((prev) =>
+        prev.map((msg) =>
+          msg.id === typingMsg.id
+            ? { ...msg, text: data.answer || "⚠️ No response received." }
+            : msg
+        )
+      );
+    } catch (err) {
+      console.error("Error:", err);
+      setMessages((prev) =>
+        prev.map((msg) =>
+          msg.id === typingMsg.id
+            ? { ...msg, text: "⚠️ Sorry, something went wrong." }
+            : msg
+        )
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleKeyDown = (e) => {
@@ -66,7 +110,7 @@ export default function GeminiChatSimple() {
         <h1 className="text-4xl font-bold text-purple-600 mb-2">
           Welcome to Medicare Chat Assistant
         </h1>
-        
+
         <button
           onClick={handleStartChat}
           className="px-6 py-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold hover:opacity-90"
@@ -82,7 +126,9 @@ export default function GeminiChatSimple() {
     <div className="flex flex-col h-screen w-full max-w-4xl mx-auto border rounded-lg overflow-hidden bg-gradient-to-b from-indigo-50 to-indigo-100 shadow-lg">
       {/* Messages */}
       <div
-        className={`flex-1 overflow-auto p-6 space-y-3 ${dragOver ? "border-4 border-dashed border-pink-400" : ""}`}
+        className={`flex-1 overflow-auto p-6 space-y-3 ${
+          dragOver ? "border-4 border-dashed border-pink-400" : ""
+        }`}
         onDragOver={(e) => {
           e.preventDefault();
           setDragOver(true);
@@ -93,7 +139,9 @@ export default function GeminiChatSimple() {
         {messages.map((msg) => (
           <div
             key={msg.id}
-            className={`flex flex-col ${msg.sender === "user" ? "items-end" : "items-start"}`}
+            className={`flex flex-col ${
+              msg.sender === "user" ? "items-end" : "items-start"
+            }`}
           >
             {msg.text && (
               <div
@@ -147,20 +195,31 @@ export default function GeminiChatSimple() {
             className="flex items-center justify-center w-12 h-12 hover:text-purple-500 text-purple-700"
             title="Record Voice"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="currentColor" viewBox="0 0 24 24">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-7 w-7"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
               <path d="M12 14a3 3 0 003-3V5a3 3 0 00-6 0v6a3 3 0 003 3zm5-3a5 5 0 01-10 0H5a7 7 0 0014 0h-2zm-5 9a7 7 0 007-7h-2a5 5 0 01-10 0H5a7 7 0 007 7z" />
             </svg>
           </button>
           {/* File upload */}
           <label className="flex items-center text-3xl hover:text-pink-500 cursor-pointer">
             📎
-            <input type="file" multiple onChange={handleFiles} className="hidden" />
+            <input
+              type="file"
+              multiple
+              onChange={handleFiles}
+              className="hidden"
+            />
           </label>
           <button
             onClick={handleSend}
-            className="px-6 py-2 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold hover:opacity-95"
+            disabled={loading}
+            className="px-6 py-2 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white font-semibold hover:opacity-95 disabled:opacity-50"
           >
-            Send
+            {loading ? "Sending..." : "Send"}
           </button>
         </div>
       </div>
