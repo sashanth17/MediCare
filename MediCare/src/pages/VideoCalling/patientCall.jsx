@@ -5,7 +5,7 @@ import {
   createOffer,
   acceptAnswer,
   addRemoteCandidates,
-} from "../../VideoCallUtilities/peerConnection";
+} from "../../../VideoCallUtilities/peerConnection";
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 function PatientCall() {

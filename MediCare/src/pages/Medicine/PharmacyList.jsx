@@ -2,6 +2,7 @@ import { useState, useEffect, use } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 export default function PharmacyList() {
   const [medicines, setMedicines] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -10,7 +11,7 @@ export default function PharmacyList() {
   const navigate = useNavigate();
   useEffect(() => {
     axios
-      .get("https://127.0.0.1:8000/medicines")
+      .get(`${BASE_URL}/medicines`)
       .then((response) => {
         setMedicines(response.data);
         setLoading(false);

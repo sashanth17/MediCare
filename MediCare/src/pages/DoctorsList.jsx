@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 const DoctorsList = () => {
+  console.log("Base URL: main", BASE_URL);
   const [doctors, setDoctors] = useState([]);
 
   useEffect(() => {
     axios
-      .get(`https://127.0.0.1:8000/Doctors`)
+      .get(`${BASE_URL}/Doctors`)
       .then((response) => {
         setDoctors(response.data);
       })

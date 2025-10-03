@@ -1,11 +1,11 @@
-import React, { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import axios from "axios";
 import {
   createPeerConnection,
   acceptOffer,
   addRemoteCandidates,
-} from "../../VideoCallUtilities/peerConnection";
-const BASE_URL = import.meta.env.VITE_BASE_URL;
+} from "../../../VideoCallUtilities/peerConnection";
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 function DoctorCall() {
   const localVideoRef = useRef(null);
   const remoteVideoRef = useRef(null);
@@ -36,7 +36,7 @@ function DoctorCall() {
 
     const interval = setInterval(async () => {
       try {
-        const res = await axios.get("BAS/VideoCall/DoctorPoll/");
+        const res = await axios.get(`${BASE_URL}/VideoCall/DoctorPoll/`);
 
         if (res.data && res.data.user_id) {
           console.log("✅ Received patient offer:", res.data);

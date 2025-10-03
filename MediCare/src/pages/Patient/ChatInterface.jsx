@@ -52,7 +52,7 @@ export default function GeminiChatSimple() {
     setLoading(true);
 
     try {
-      const res = await axios.post("http://localhost:5000/ai", {
+      const res = await axios.post("http://127.0.0.1:8000/ai", {
         query: userMessage.text,
         session_id: "12345",
       });

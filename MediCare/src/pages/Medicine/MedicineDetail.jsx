@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const MedicineDetail = () => {
   const { medicineId } = useParams(); // from route /medicines/:medicineId
@@ -11,7 +12,7 @@ const MedicineDetail = () => {
 
   useEffect(() => {
     axios
-      .get(`https://0.0.0.0:8000/medicines/${medicineId}/`)
+      .get(`${BASE_URL}/medicines/${medicineId}/`)
       .then((response) => {
         setMedicine(response.data.medicine);
         setInstances(response.data.instances);
